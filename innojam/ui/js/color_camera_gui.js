@@ -1,7 +1,7 @@
 function initGUIControllers(tracker) {
   // GUI Controllers
 
-  var gui = new dat.GUI();
+  var gui = new DAT.GUI();
 
   var trackedColors = {
     custom: false

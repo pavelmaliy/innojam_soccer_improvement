@@ -8,6 +8,19 @@
       video, canvas {
         position: absolute;
       }
+      .tracking-point-list {
+        position: absolute;
+        left: 1400px;
+        height: 500px;
+        overflow-y: scroll;
+      }
+      .item-title {
+        cursor: pointer;
+      }
+      .selected-item-from-array {
+        background-color: #ff7701;
+      }
+
     </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -115,14 +128,13 @@
     <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
-          <!--<button type="button" onclick="window.doTrack()">track barca</button>
-          <button type="button" onclick="window.changeTrack()">add commentary</button>-->
 
             <div class="video">
-                <video id="video" width="1600" height="900" preload autoplay loop muted controls>
+                <video id="video" width="1280" height="1024" preload autoplay loop muted controls>
                     <source src="dist/video/real.mp4" type="video/mp4">
                 </video>
-                <canvas id="canvas" width="1600" height="900"></canvas>
+                <canvas id="canvas" width="1280" height="1024"></canvas>
+              <div class="tracking-point-list"><div><button class="onDownloadArray">onDownloadArray</button><div> List </div>
             </div>
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
