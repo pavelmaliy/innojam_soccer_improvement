@@ -34,18 +34,20 @@
       <video id="video" width="1600" height="1000" preload autoplay loop muted controls>
         <source src="assets/real.mp4" type="video/mp4">
       </video>
-
-
-
       <canvas id="canvas" width="1600" height="1000"></canvas>
     </div>
   <!-- </div> -->
 
   <script>
-    //var gameArray = {};
-    //gameArray[10] = {x: 900}
-    //Math.ceil(10.1)
-    //var vid = document.getElementById("video");
+    var gameArray = {};
+    /*gameArray[10] = {x_big_then: 850, x_less_then: 1000};
+    gameArray[11] = {x_big_then: 970, x_less_then: 1100};
+    gameArray[12] = {x_big_then: 1100, x_less_then: 1150};
+    gameArray[12] = {x_big_then: 1100, x_less_then: 1150}*/
+    gameArray = [];
+
+    //Math.floor(10.1)
+    var vid = document.getElementById("video");
     //vid.playbackRate = 0.1;
 
     window.trackES = new Audio('assets/trackES.mp3');
@@ -91,35 +93,37 @@
             tracking.track('#video', tracker);
         } ;
      // tracking.track('#video', tracker);
-
+      var x = 0;
+      window.trackObj = {};
       tracker.on('track', function(event) {
+
         context.clearRect(0, 0, canvas.width, canvas.height);
+        var currFrame = [];
+        trackObj[x++] = currFrame;
 
         event.data.forEach(function(rect) {
- /*           if (rect.x < 400 || rect.x > 600) {
-                return;
-            }*/
+          currFrame.push({x: rect.x, y: rect.y, currentTime: vid.currentTime});
 
-/*
-          if (!(vid.currentTime > 10 && rect.x < 1000 && rect.y < 500)) {
-              return;
-          }
-*/
-
-
-            if (rect.color === 'custom') {
+          if (rect.color === 'custom') {
             rect.color = tracker.customColor;
           }
-
-       //   context.strokeStyle = rect.color;
-        //  context.strokeRect(rect.x, rect.y, rect.width, rect.height);
           context.font = '22px Helvetica';
           context.fillStyle = "#fff";
+          context.fillText(vid.currentTime + '  [x=' + rect.x + ',y=' + rect.y + "]", rect.x + rect.width - 30, rect.y - 30);
 
-          //vid.currentTime
-          context.fillText(vid.currentTime + '  [x='+ rect.x + ',y=' + rect.y + "]", rect.x + rect.width - 5, rect.y - 30);
-          //context.fillText('Ronaldo', rect.x + rect.width + 5, rect.y - 30);
-          //context.fillText('', rect.x + rect.width + 5, rect.y + 22);
+          var item = gameArray[Math.floor(vid.currentTime)];
+          /*if (item) {
+
+            if (item.x_big_then && rect.x > item.x_big_then && item.x_less_then && rect.x < item.x_less_then) {
+
+              if (rect.color === 'custom') {
+                rect.color = tracker.customColor;
+              }
+              context.font = '22px Helvetica';
+              context.fillStyle = "#fff";
+              context.fillText(vid.currentTime + '  [x=' + rect.x + ',y=' + rect.y + "]", rect.x + rect.width - 30, rect.y - 30);
+            }
+          }*/
         });
       });
 
