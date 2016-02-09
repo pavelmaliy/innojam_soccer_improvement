@@ -31,17 +31,22 @@
  <!-- <div class="demo-frame"> -->
     <div class="demo-container">
       <div id="rectangle"></div>
-      <video id="video" width="800" height="600" preload autoplay loop muted controls>
+      <video id="video" width="1600" height="1000" preload autoplay loop muted controls>
         <source src="assets/real.mp4" type="video/mp4">
       </video>
 
 
 
-      <canvas id="canvas" width="1920" height="1080"></canvas>
+      <canvas id="canvas" width="1600" height="1000"></canvas>
     </div>
   <!-- </div> -->
 
   <script>
+    //var gameArray = {};
+    //gameArray[10] = {x: 900}
+    //Math.ceil(10.1)
+    //var vid = document.getElementById("video");
+    //vid.playbackRate = 0.1;
 
     window.trackES = new Audio('assets/trackES.mp3');
     window.trackAR = new Audio('assets/trackAR.mp3');
@@ -91,9 +96,15 @@
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         event.data.forEach(function(rect) {
-            if (rect.x < 400 || rect.x > 600) {
+ /*           if (rect.x < 400 || rect.x > 600) {
                 return;
-            }
+            }*/
+
+/*
+          if (!(vid.currentTime > 10 && rect.x < 1000 && rect.y < 500)) {
+              return;
+          }
+*/
 
 
             if (rect.color === 'custom') {
@@ -104,8 +115,10 @@
         //  context.strokeRect(rect.x, rect.y, rect.width, rect.height);
           context.font = '22px Helvetica';
           context.fillStyle = "#fff";
-         // context.fillText('[x='+ rect.x + ',y=' + rect.y + "]", rect.x + rect.width + 5, rect.y - 30);
-          context.fillText('Ronaldo', rect.x + rect.width + 5, rect.y - 30);
+
+          //vid.currentTime
+          context.fillText(vid.currentTime + '  [x='+ rect.x + ',y=' + rect.y + "]", rect.x + rect.width - 5, rect.y - 30);
+          //context.fillText('Ronaldo', rect.x + rect.width + 5, rect.y - 30);
           //context.fillText('', rect.x + rect.width + 5, rect.y + 22);
         });
       });
