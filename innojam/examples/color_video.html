@@ -31,8 +31,8 @@
  <!-- <div class="demo-frame"> -->
     <div class="demo-container">
       <div id="rectangle"></div>
-      <video id="video" width="1600" height="900" preload autoplay loop muted controls>
-        <source src="assets/barca.mp4" type="video/mp4">
+      <video id="video" width="800" height="600" preload autoplay loop muted controls>
+        <source src="assets/real.mp4" type="video/mp4">
       </video>
 
 
@@ -42,6 +42,7 @@
   <!-- </div> -->
 
   <script>
+
     window.trackES = new Audio('assets/trackES.mp3');
     window.trackAR = new Audio('assets/trackAR.mp3');
     window.trackEN = new Audio('assets/trackEN.mp3');
@@ -68,9 +69,9 @@
       var context = canvas.getContext('2d');
 
       tracking.ColorTracker.registerColor('purple', function(r, g, b) {
-        var dx = r - 242;
-        var dy = g - 117;
-        var dz = b - 30;
+        var dx = r - 252;
+        var dy = g - 142;
+        var dz = b - 44;
 
         if ((b - g) >= 100 && (r - g) >= 60) {
           return true;
@@ -79,7 +80,7 @@
       });
 
       var tracker = new tracking.ColorTracker(['purple']);
-      tracker.setMinDimension(20);
+      tracker.setMinDimension(5);
 
         window.doTrack = function() {
             tracking.track('#video', tracker);
@@ -90,8 +91,12 @@
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         event.data.forEach(function(rect) {
+            if (rect.x < 400 || rect.x > 600) {
+                return;
+            }
 
-          if (rect.color === 'custom') {
+
+            if (rect.color === 'custom') {
             rect.color = tracker.customColor;
           }
 
@@ -99,7 +104,8 @@
         //  context.strokeRect(rect.x, rect.y, rect.width, rect.height);
           context.font = '22px Helvetica';
           context.fillStyle = "#fff";
-          context.fillText('Madrid', rect.x + rect.width + 5, rect.y - 50);
+         // context.fillText('[x='+ rect.x + ',y=' + rect.y + "]", rect.x + rect.width + 5, rect.y - 30);
+          context.fillText('Ronaldo', rect.x + rect.width + 5, rect.y - 30);
           //context.fillText('', rect.x + rect.width + 5, rect.y + 22);
         });
       });
