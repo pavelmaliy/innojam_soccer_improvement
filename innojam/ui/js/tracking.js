@@ -3,7 +3,7 @@
  */
 (function(){
 
-  jQuery('.track-player').on('click',function(){
+  //jQuery('.track-player').on('click',function(){
     var vid = document.getElementById('video');
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
@@ -21,7 +21,6 @@
 
     var tracker = new tracking.ColorTracker(['purple']);
     tracker.setMinDimension(5);
-    tracking.track('#video', tracker);
 
     // tracking.track('#video', tracker);
     var x = 0;
@@ -44,10 +43,13 @@
       });
     });
 
+    jQuery('.track-player').on('click',function(){
+        tracking.track('#video', tracker);
+    }).bind(this);
+
     initGUIControllers(tracker);
 
-
-  });
+  //});
 
 
 
