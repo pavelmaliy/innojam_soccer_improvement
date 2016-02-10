@@ -11,6 +11,14 @@
             background-color: black;
         }
 
+        .video {
+            position: relative;
+        }
+
+        .content {
+            padding: 0 !important;
+        }
+
         video, canvas {
             position: absolute;
         }
@@ -36,6 +44,7 @@
             font-size: 16px;
             cursor: pointer;
         }
+
         .skin-blue .treeview-menu > li > a:hover .text-success {
             color: #14d1ff !important;
         }
@@ -191,10 +200,10 @@
             </div>
 
             <div class="video">
-                <video style="top: -90px" id="video" width="1280" height="1024" preload autoplay loop muted controls>
+                <video id="video" width="1280" height="720" preload autoplay loop muted controls>
                     <source src="dist/video/real.mp4" type="video/mp4">
                 </video>
-                <canvas id="canvas" width="1280" height="1024"></canvas>
+                <canvas id="canvas" width="1280" height="720"></canvas>
                 <div class="tracking-point-list">
                     <div>
                         <button class="onDownloadArray">Download Array</button>
