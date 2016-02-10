@@ -127,15 +127,16 @@
     var context = canvas.getContext('2d');
 
     tracking.ColorTracker.registerColor('purple', function(r, g, b) {
-      var dx = r - 174;
+      //Orange full
+      /*var dx = r - 174;
       var dy = g - 113;
-      var dz = b - 93;
+      var dz = b - 93;*/
       //orange
-/*
+
       var dx = r - 252;
       var dy = g - 142;
       var dz = b - 44;
-*/
+
       //white
 /*      var dx = r - 243;
       var dy = g - 254;
