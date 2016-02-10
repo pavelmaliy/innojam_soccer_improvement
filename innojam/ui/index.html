@@ -21,6 +21,12 @@
       .selected-item-from-array {
         background-color: #ff7701;
       }
+      .demo-video{
+        margin-left: 260px;
+        margin-top: 140px;
+        position: absolute;
+        transform: scale(3,3);
+      }
 
     </style>
     <meta charset="utf-8">
@@ -51,7 +57,9 @@
     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-    <script src="/build/tracking-min.js"></script>
+    <link rel="stylesheet" href="dist/css/demo.css">
+    <script src="../build/tracking-min.js"></script>
+    <script src="../build/data/face-min.js"></script>
     <script src="js/color_camera_gui.js"></script>
     <script src="js/playback.js"></script>
     <!-- <script src="js/DAT.GUI.min.js"></script> -->
@@ -124,7 +132,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a class="live-demo" href="#">
                         <i class="fa fa-th"></i> <span>Live</span>
                     </a>
                 </li>
@@ -137,6 +145,21 @@
     <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
+
+           <div class="live-demo-content" style="display: none">
+
+             <div>
+               <button id="demo-fake" type="button"> demo </button>
+             </div>
+
+             <div class="demo-frame">
+               <div class="demo-container">
+                 <video id="videoLive" class="demo-video" width="300" height="240" preload autoplay loop muted></video>
+                 <canvas id="canvasLive" class="demo-video" width="300" height="240"></canvas>
+               </div>
+             </div>
+
+           </div>
 
             <div class="video">
                 <video style="top: -97px" id="video" width="1280" height="1024" preload autoplay loop muted controls>
@@ -168,5 +191,7 @@
 
 <script src="js/tracking.js"></script>
 <script src="js/commentator.js"></script>
+<script src="js/liveDemo.js"></script>
+
 </body>
 </html>
