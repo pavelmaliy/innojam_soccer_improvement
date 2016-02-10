@@ -15,14 +15,21 @@
       window.videoStuff.interval = setInterval(function(){
         window.videoStuff.currentTime = parseFloat(window.videoStuff.currentTime.toFixed(2));
         window.videoStuff.currentTime += 0.01;
-        var currentTime = window.videoStuff.currentTime.toString();
+        window.videoStuff.currentTime = parseFloat(window.videoStuff.currentTime.toFixed(2));
+        var currentTime = window.videoStuff.currentTime.toFixed(2);
 
-        if (window.playback[currentTime]) {
+        if ( window.playback[currentTime] ) {
           var point = window.playback[currentTime];
-          //console.log('>>>', point);
+
           window.clearCanvas();
           window.paintNames(parseInt(point.x,10), parseInt(point.y,10), parseInt(point.w,10), point.name);
         }
+/*
+        if ( window.videoStuff.currentTime > 17 && window.videoStuff.currentTime < 22) {
+          console.log('>>>', window.videoStuff.currentTime);
+        }
+*/
+
       },10)
     };
 
@@ -32,6 +39,7 @@
     };
 
     vid.onseeked = function onseeked() {
+      console.log('onseeked');
       window.videoStuff.currentTime = parseFloat(this.currentTime.toFixed(2));
     };
 
@@ -103,9 +111,9 @@
     var context = canvas.getContext('2d');
 
     tracking.ColorTracker.registerColor('purple', function(r, g, b) {
-      var dx = r - 252;
-      var dy = g - 142;
-      var dz = b - 44;
+      var dx = r - 243;
+      var dy = g - 254;
+      var dz = b - 255;
 
       if ((b - g) >= 100 && (r - g) >= 60) {
         return true;
@@ -156,7 +164,9 @@
   };
 
     window.paintNamesFromRecord = function(x,y, width, currentTime) {
-    window.trackingVideo.stop();
+    if (window.trackingVideo) {
+      window.trackingVideo.stop();
+    }
     var canvas = document.getElementById('canvas');
     var vid = document.getElementById('video');
     var context = canvas.getContext('2d');
@@ -181,6 +191,19 @@
       context.fillText(vid.currentTime + '  [x=' + x + ',y=' + y + "]", x + width - 30, y - 30);
     }
 
+  }
+
+  window.buildList = function() {
+    var time = 20,
+        x= 400,
+        y = 400,
+        w = 10;
+    jQuery('.tracking-point-list').html('');
+    for (var i= 0; i< 10000; i++){
+      time += 0.1;
+      str = '<div class="item-title" onmouseover="window.paintNamesFromRecord(' + x + ',' + y + ','  + w + ',' + time + ')" onclick="window.paintNamesClick(' + x + ',' + y + ','  + w + ',' + time + ', this)"> ' +  i + '</div> ';
+      jQuery('.tracking-point-list').append(str);
+    }
   }
 
 
