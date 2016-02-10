@@ -6,29 +6,41 @@
     var trackES = new Audio('/examples/assets/trackES.mp3');
     var trackAR = new Audio('/examples/assets/trackAR.mp3');
     var trackEN = new Audio('/examples/assets/trackEN.mp3');
+    var trackMeir = new Audio('/examples/assets/trackMeir.mp3');
 
   jQuery('.live').on('click',function() {
       trackAR.pause();
       trackES.pause();
+      trackMeir.pause();
       trackEN.play();
   }).bind(this);
 
   jQuery('.shlomi').on('click',function() {
       trackAR.pause();
       trackES.play();
+      trackMeir.pause();
       trackEN.pause();
   }).bind(this);
 
   jQuery('.muhamad').on('click',function() {
       trackAR.play();
       trackES.pause();
+      trackMeir.pause();
       trackEN.pause();
+  }).bind(this);
+
+  jQuery('.meir').on('click',function() {
+    trackAR.pause();
+    trackES.pause();
+    trackEN.pause();
+    trackMeir.play();
   }).bind(this);
 
   jQuery('.mute').on('click',function() {
       trackAR.pause();
       trackES.pause();
       trackEN.pause();
+      trackMeir.pause();
   }).bind(this);
 
 }());
