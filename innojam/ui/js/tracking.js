@@ -71,7 +71,7 @@
         t = arr[3];
       t = parseFloat(t).toFixed(2);
       var obj = {};
-      jsonObj[t] = {x:x, y:y, w:w};
+      jsonObj[t] = {x:x, y:y, w:w, name: "Ronaldo"};
     });
     exportToCsv('test', JSON.stringify(jsonObj));
   });
@@ -133,13 +133,6 @@
         event.data.forEach(function(rect, index) {
           window.paintNames(rect.x, rect.y, rect.width);
           jQuery('.tracking-point-list').append('<span class="item-title" onmouseover="window.paintNamesFromRecord(' + rect.x + ',' + rect.y + ','  + rect.width + ',' + vid.currentTime + ')" onclick="window.paintNamesClick(' + rect.x + ',' + rect.y + ','  + rect.width + ',' + vid.currentTime + ', this)">  ' + index + '  </span>');
-          /*currFrame.push({x: rect.x, y: rect.y, width: rect.width, currentTime: vid.currentTime});
-          if (rect.color === 'custom') {
-            rect.color = tracker.customColor;
-          }
-          context.font = '22px Helvetica';
-          context.fillStyle = "#fff";
-          context.fillText(vid.currentTime + '  [x=' + rect.x + ',y=' + rect.y + "]", rect.x + rect.width - 30, rect.y - 30);*/
         });
       }
 
