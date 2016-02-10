@@ -25,4 +25,10 @@
       trackEN.pause();
   }).bind(this);
 
+  jQuery('.mute').on('click',function() {
+      trackAR.pause();
+      trackES.pause();
+      trackEN.pause();
+  }).bind(this);
+
 }());
