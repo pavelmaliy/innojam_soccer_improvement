@@ -19,9 +19,9 @@
 
         if (window.playback[currentTime]) {
           var point = window.playback[currentTime];
-          console.log('>>>', point);
+          //console.log('>>>', point);
           window.clearCanvas();
-          window.paintNames(parseInt(point.x,10), parseInt(point.y,10), parseInt(point.w,10));
+          window.paintNames(parseInt(point.x,10), parseInt(point.y,10), parseInt(point.w,10), point.name);
         }
       },10)
     };
@@ -147,7 +147,6 @@
     } else {
       jQuery(obj).addClass('selected-item-from-array');
     }
-    console.log('>>>>',obj);
   };
 
   window.clearCanvas = function clearCanvas( ) {
@@ -169,14 +168,19 @@
     context.fillText(vid.currentTime + '  [x=' + x + ',y=' + y + "]", x + width - 30, y - 30);
   };
 
-  window.paintNames = function(x,y, width) {
+  window.paintNames = function(x,y, width, name) {
     var canvas = document.getElementById('canvas');
     var vid = document.getElementById('video');
     var context = canvas.getContext('2d');
 
     context.font = '22px Helvetica';
     context.fillStyle = "#fff";
-    context.fillText(vid.currentTime + '  [x=' + x + ',y=' + y + "]", x + width - 30, y - 30);
+    if (name) {
+      context.fillText(name, x + width - 30, y - 30);
+    } else {
+      context.fillText(vid.currentTime + '  [x=' + x + ',y=' + y + "]", x + width - 30, y - 30);
+    }
+
   }
 
 
