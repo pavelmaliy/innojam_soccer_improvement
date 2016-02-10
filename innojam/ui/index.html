@@ -9,6 +9,7 @@
         position: absolute;
       }
       .tracking-point-list {
+        display: none;
         position: absolute;
         left: 1400px;
         height: 500px;
@@ -52,6 +53,7 @@
     <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
     <script src="/build/tracking-min.js"></script>
     <script src="js/color_camera_gui.js"></script>
+    <script src="js/playback.js"></script>
     <script src="js/DAT.GUI.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -140,7 +142,7 @@
                     <source src="dist/video/real.mp4" type="video/mp4">
                 </video>
                 <canvas id="canvas" width="1280" height="1024"></canvas>
-              <div class="tracking-point-list"><div><button class="onDownloadArray">onDownloadArray</button><div> List </div>
+              <div class="tracking-point-list"><div><button class="onDownloadArray">Download Array</button><div> List </div>
             </div>
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
