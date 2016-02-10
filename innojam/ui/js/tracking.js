@@ -3,42 +3,81 @@
  */
 (function(){
 
-  jQuery('.onDownloadArray').on('click', function(){
-    var rows = [];
-    jQuery('.selected-item-from-array').each(function(){
-      var arr = jQuery(this).attr('onclick').substr(23).replace(', this)','').split(',');
-      rows.push(arr);
-      var x = arr[0];
-      var y = arr[2];
-      var t = arr[3];
-    })
-    exportToCsv('test', rows);
-  });
+  window.videoStuff = {};
 
+  window.videoStuff.playback = function() {
+    var vid = document.getElementById("video");
 
-  function exportToCsv(filename, rows) {
-    var processRow = function (row) {
-      var finalVal = '';
-      for (var j = 0; j < row.length; j++) {
-        var innerValue = row[j] === null ? '' : row[j].toString();
-        if (row[j] instanceof Date) {
-          innerValue = row[j].toLocaleString();
-        };
-        var result = innerValue.replace(/"/g, '""');
-        if (result.search(/("|,|\n)/g) >= 0)
-          result = '"' + result + '"';
-        if (j > 0)
-          finalVal += ',';
-        finalVal += result;
-      }
-      return finalVal + '\n';
+    vid.onplay = function onplay() {
+      console.log('onplay');
+      window.videoStuff.currentTime = parseFloat(this.currentTime.toFixed(2)) ;
+
+      window.videoStuff.interval = setInterval(function(){
+        window.videoStuff.currentTime = parseFloat(window.videoStuff.currentTime.toFixed(2));
+        window.videoStuff.currentTime += 0.01;
+        var currentTime = window.videoStuff.currentTime.toString();
+
+        if (window.playback[currentTime]) {
+          var point = window.playback[currentTime];
+          //console.log('>>>', point);
+          window.clearCanvas();
+          window.paintNames(parseInt(point.x,10), parseInt(point.y,10), parseInt(point.w,10), point.name);
+        }
+      },10)
     };
 
-    var csvFile = '';
-    for (var i = 0; i < rows.length; i++) {
-      csvFile += processRow(rows[i]);
-    }
+    vid.onpause = function onpause() {
+      console.log('onpause');
+      window.clearInterval(window.videoStuff.interval);
+    };
 
+    vid.onseeked = function onseeked() {
+      window.videoStuff.currentTime = parseFloat(this.currentTime.toFixed(2));
+    };
+
+    vid.onended = function onended() {
+      console.log('onended');
+      window.clearInterval(window.videoStuff.interval);
+    };
+
+    vid.onerror = function onerror() {
+      console.log('onerror');
+      window.clearInterval(window.videoStuff.interval);
+    };
+
+    vid.onabort = function onabort() {
+      console.log('onabort');
+      window.clearInterval(window.videoStuff.interval);
+    };
+  }
+
+  if (window.location.search.substring(1).indexOf('dev=true') >= 0){
+    jQuery('.tracking-point-list').css('display','block');
+  }
+
+
+  if (window.location.hash.substring(1).indexOf('play=true') >= 0){
+    window.videoStuff.playback();
+  }
+
+
+  jQuery('.onDownloadArray').on('click', function(){
+    var jsonObj = {};
+    jQuery('.selected-item-from-array').each(function(){
+      var arr = jQuery(this).attr('onclick').substr(23).replace(', this)','').split(',');
+      var x = arr[0],
+        y = arr[1],
+        w = arr[2],
+        t = arr[3];
+      t = parseFloat(t).toFixed(2);
+      var obj = {};
+      jsonObj[t] = {x:x, y:y, w:w, name: "Ronaldo"};
+    });
+    exportToCsv('test', JSON.stringify(jsonObj));
+  });
+
+  function exportToCsv(filename, content) {
+    var csvFile = "window.playback = " + content;
     var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
     if (navigator.msSaveBlob) { // IE 10+
       navigator.msSaveBlob(blob, filename);
@@ -84,7 +123,7 @@
       if (event.data.length === 0) {
         // No colors were detected in this frame.
       } else {
-        jQuery('.tracking-point-list').append('<div></div>');
+        jQuery('.tracking-point-list').append('<div></div><span>');
         context.clearRect(0, 0, canvas.width, canvas.height);
         var currFrame = [];
         if (event.data.length > 0) {
@@ -94,13 +133,6 @@
         event.data.forEach(function(rect, index) {
           window.paintNames(rect.x, rect.y, rect.width);
           jQuery('.tracking-point-list').append('<span class="item-title" onmouseover="window.paintNamesFromRecord(' + rect.x + ',' + rect.y + ','  + rect.width + ',' + vid.currentTime + ')" onclick="window.paintNamesClick(' + rect.x + ',' + rect.y + ','  + rect.width + ',' + vid.currentTime + ', this)">  ' + index + '  </span>');
-          /*currFrame.push({x: rect.x, y: rect.y, width: rect.width, currentTime: vid.currentTime});
-          if (rect.color === 'custom') {
-            rect.color = tracker.customColor;
-          }
-          context.font = '22px Helvetica';
-          context.fillStyle = "#fff";
-          context.fillText(vid.currentTime + '  [x=' + rect.x + ',y=' + rect.y + "]", rect.x + rect.width - 30, rect.y - 30);*/
         });
       }
 
@@ -115,10 +147,15 @@
     } else {
       jQuery(obj).addClass('selected-item-from-array');
     }
-    console.log('>>>>',obj);
   };
 
-  window.paintNamesFromRecord = function(x,y, width, currentTime) {
+  window.clearCanvas = function clearCanvas( ) {
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  };
+
+    window.paintNamesFromRecord = function(x,y, width, currentTime) {
     window.trackingVideo.stop();
     var canvas = document.getElementById('canvas');
     var vid = document.getElementById('video');
@@ -131,14 +168,21 @@
     context.fillText(vid.currentTime + '  [x=' + x + ',y=' + y + "]", x + width - 30, y - 30);
   };
 
-  window.paintNames = function(x,y, width) {
+  window.paintNames = function(x,y, width, name) {
     var canvas = document.getElementById('canvas');
     var vid = document.getElementById('video');
     var context = canvas.getContext('2d');
+
     context.font = '22px Helvetica';
     context.fillStyle = "#fff";
-    context.fillText(vid.currentTime + '  [x=' + x + ',y=' + y + "]", x + width - 30, y - 30);
+    if (name) {
+      context.fillText(name, x + width - 30, y - 30);
+    } else {
+      context.fillText(vid.currentTime + '  [x=' + x + ',y=' + y + "]", x + width - 30, y - 30);
+    }
+
   }
+
 
 }());
 
