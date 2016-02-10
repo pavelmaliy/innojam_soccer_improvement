@@ -2,6 +2,7 @@
 node_modules
 test/assets/benchmark.json
 .idea
+*.iml
 
 ## Directory-based project format:
 .idea/*
