@@ -3,7 +3,23 @@
  */
 (function(){
 
-  window.videoStuff = {};
+
+  window.videoStuff = {
+    preffix_x: 0,
+    preffix_y: 0,
+    getURLParameter : function getURLParameter(name) {
+      var value = (new RegExp('(\\?' + name + '=|&' + name + '=)(.+?)(&|$)', 'i').exec(location.search) || [null, null, null])[2];
+      return value !== null ? decodeURIComponent(value) : undefined;
+    }
+  };
+
+  if (window.videoStuff.getURLParameter('y')) {
+    window.videoStuff.preffix_y = parseInt(window.videoStuff.getURLParameter('y'),10);
+  }
+
+  if (window.videoStuff.getURLParameter('x')) {
+    window.videoStuff.preffix_x = parseInt(window.videoStuff.getURLParameter('x'),10);
+  }
 
   window.videoStuff.playback = function() {
     var vid = document.getElementById("video");
@@ -111,9 +127,19 @@
     var context = canvas.getContext('2d');
 
     tracking.ColorTracker.registerColor('purple', function(r, g, b) {
-      var dx = r - 243;
+      var dx = r - 174;
+      var dy = g - 113;
+      var dz = b - 93;
+      //orange
+/*
+      var dx = r - 252;
+      var dy = g - 142;
+      var dz = b - 44;
+*/
+      //white
+/*      var dx = r - 243;
       var dy = g - 254;
-      var dz = b - 255;
+      var dz = b - 255;*/
 
       if ((b - g) >= 100 && (r - g) >= 60) {
         return true;
@@ -122,7 +148,7 @@
     });
 
     var tracker = new tracking.ColorTracker(['purple']);
-    tracker.setMinDimension(10);
+    tracker.setMinDimension(1);
     window.trackingVideo = tracking.track('#video', tracker);
     var x = 0;
     window.trackObj = {};
@@ -179,14 +205,29 @@
   };
 
   window.paintNames = function(x,y, width, name) {
+    x += window.videoStuff.preffix_x;
+    y += window.videoStuff.preffix_y;
     var canvas = document.getElementById('canvas');
     var vid = document.getElementById('video');
     var context = canvas.getContext('2d');
 
-    context.font = '22px Helvetica';
-    context.fillStyle = "#fff";
+    context.font = 'bold 22px Arial';
+    context.fillStyle = "#ffffff";
     if (name) {
+
+      context.shadowColor = "black";
+      context.shadowOffsetX = 5;
+      context.shadowOffsetY = 5;
+      context.shadowBlur = 7;
+      context.font = "bold 22px 'Helvetica'";
+      context.textBaseline = 'alphabetic';
+      context.scale(1,1);
+      context.fillStyle = "#ffffff";
       context.fillText(name, x + width - 30, y - 30);
+
+      /*context.fillStyle = "blue";
+      context.fillRect(x-10 , y - 70 , 90, 50);
+      context.globalAlpha = 0.3;*/
     } else {
       context.fillText(vid.currentTime + '  [x=' + x + ',y=' + y + "]", x + width - 30, y - 30);
     }
