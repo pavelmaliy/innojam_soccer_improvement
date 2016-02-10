@@ -2,31 +2,40 @@
 <html>
 <head>
     <style>
-      .demo-container {
-        background-color: black;
-      }
-      video, canvas {
-        position: absolute;
-      }
-      .tracking-point-list {
-        display: none;
-        position: absolute;
-        left: 1400px;
-        height: 500px;
-        overflow-y: scroll;
-      }
-      .item-title {
-        cursor: pointer;
-      }
-      .selected-item-from-array {
-        background-color: #ff7701;
-      }
-      .demo-video{
-        margin-left: 260px;
-        margin-top: 140px;
-        position: absolute;
-        transform: scale(3,3);
-      }
+        body {
+            overflow: hidden !important;
+        }
+
+        .demo-container {
+            background-color: black;
+        }
+
+        video, canvas {
+            position: absolute;
+        }
+
+        .tracking-point-list {
+            display: none;
+            position: absolute;
+            left: 1400px;
+            height: 500px;
+            overflow-y: scroll;
+        }
+
+        .item-title {
+            cursor: pointer;
+        }
+
+        .selected-item-from-array {
+            background-color: #ff7701;
+        }
+
+        .demo-video {
+            margin-left: 260px;
+            margin-top: 140px;
+            position: absolute;
+            transform: scale(3, 3);
+        }
 
     </style>
     <meta charset="utf-8">
@@ -64,7 +73,7 @@
     <script src="js/playback.js"></script>
     <!-- <script src="js/DAT.GUI.min.js"></script> -->
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -147,28 +156,32 @@
         <!-- Main content -->
         <section class="content">
 
-           <div class="live-demo-content" style="display: none">
+            <div class="live-demo-content" style="display: none">
 
-             <div>
-               <button id="demo-fake" type="button"> demo </button>
-             </div>
+                <div>
+                    <button id="demo-fake" type="button"> demo</button>
+                </div>
 
-             <div class="demo-frame">
-               <div class="demo-container">
-                 <video id="videoLive" class="demo-video" width="300" height="240" preload autoplay loop muted></video>
-                 <canvas id="canvasLive" class="demo-video" width="300" height="240"></canvas>
-               </div>
-             </div>
+                <div class="demo-frame">
+                    <div class="demo-container">
+                        <video id="videoLive" class="demo-video" width="300" height="240" preload autoplay loop
+                               muted></video>
+                        <canvas id="canvasLive" class="demo-video" width="300" height="240"></canvas>
+                    </div>
+                </div>
 
-           </div>
+            </div>
 
             <div class="video">
                 <video style="top: -97px" id="video" width="1280" height="1024" preload autoplay loop muted controls>
                     <source src="dist/video/real.mp4" type="video/mp4">
                 </video>
                 <canvas id="canvas" width="1280" height="1024"></canvas>
-              <div class="tracking-point-list"><div><button class="onDownloadArray">Download Array</button><div> List </div>
-            </div>
+                <div class="tracking-point-list">
+                    <div>
+                        <button class="onDownloadArray">Download Array</button>
+                        <div> List</div>
+                    </div>
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
 </div><!-- ./wrapper -->
