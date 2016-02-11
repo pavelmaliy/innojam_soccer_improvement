@@ -3,87 +3,113 @@
  */
 (function(){
 
-
   window.videoStuff = {
+    vid: document.getElementById("video"),
+    canvas: document.getElementById('canvas'),
     preffix_x: 0,
-    preffix_y: 0,
+    preffix_y: 0
+  };
+
+  jQuery.extend(window.videoStuff, {
+    context: window.videoStuff.canvas.getContext('2d'),
+    isPlayMode: false,
+
     getURLParameter : function getURLParameter(name) {
       var value = (new RegExp('(\\?' + name + '=|&' + name + '=)(.+?)(&|$)', 'i').exec(location.search) || [null, null, null])[2];
       return value !== null ? decodeURIComponent(value) : undefined;
+    },
+
+    fadeOutText: function fadeOutText(text) {
+      var alpha = 1.0,   // full opacity
+      interval = setInterval(function () {
+        window.videoStuff.canvas.width = window.videoStuff.canvas.width; // Clears the canvas
+
+        window.videoStuff.context.shadowColor = "black";
+        window.videoStuff.context.shadowOffsetX = 10;
+        window.videoStuff.context.shadowOffsetY = 10;
+        window.videoStuff.context.shadowBlur = 7;
+        window.videoStuff.context.font = "bold 40px 'Helvetica'";
+        window.videoStuff.context.textBaseline = 'alphabetic';
+        window.videoStuff.context.scale(1,1);
+        window.videoStuff.context.fillStyle = "#eeeeee";
+        window.videoStuff.context.fillText(text, 600, 50);
+
+        /*window.videoStuff.context.fillStyle = "rgba(255, 0, 0, " + alpha + ")";
+        window.videoStuff.context.font = "italic 40pt Arial";
+        window.videoStuff.context.fillText(text, 400, 50);*/
+        alpha = alpha - 0.05; // decrease opacity (fade out)
+        if (alpha < 0) {
+          window.videoStuff.canvas.width = window.videoStuff.canvas.width;
+          clearInterval(interval);
+        }
+      },100);
+    },
+
+    playback: function() {
+
+      window.videoStuff.fadeOutText('Start Tracking');
+
+      window.videoStuff.vid.onplay = function onplay() {
+        window.videoStuff.currentTime = parseFloat(this.currentTime.toFixed(2)) ;
+
+        window.videoStuff.interval = setInterval(function(){
+          window.videoStuff.currentTime = parseFloat(window.videoStuff.currentTime.toFixed(2));
+          window.videoStuff.currentTime += 0.01;
+          window.videoStuff.currentTime = parseFloat(window.videoStuff.currentTime.toFixed(2));
+          var currentTime = window.videoStuff.currentTime.toFixed(2);
+
+          if ( window.playback[currentTime] ) {
+            var point = window.playback[currentTime];
+
+            window.videoStuff.clearCanvas();
+            window.paintNames(parseInt(point.x,10), parseInt(point.y,10), parseInt(point.w,10), point.name);
+          }
+        },10)
+      };
+
+      window.videoStuff.vid.onpause = function onpause() {
+        console.log('onpause');
+        window.clearInterval(window.videoStuff.interval);
+      };
+
+      window.videoStuff.vid.onseeked = function onseeked() {
+        console.log('onseeked');
+        window.videoStuff.currentTime = parseFloat(this.currentTime.toFixed(2));
+      };
+
+      window.videoStuff.vid.onended = function onended() {
+        console.log('onended');
+        window.clearInterval(window.videoStuff.interval);
+      };
+
+      window.videoStuff.vid.onerror = function onerror() {
+        console.log('onerror');
+        window.clearInterval(window.videoStuff.interval);
+      };
+
+      window.videoStuff.vid.onabort = function onabort() {
+        console.log('onabort');
+        window.clearInterval(window.videoStuff.interval);
+      };
+    },
+
+    clearCanvas: function clearCanvas( ) {
+      window.videoStuff.context.clearRect(0, 0, window.videoStuff.canvas.width, window.videoStuff.canvas.height);
     }
-  };
+  });
 
   if (window.videoStuff.getURLParameter('y')) {
     window.videoStuff.preffix_y = parseInt(window.videoStuff.getURLParameter('y'),10);
   }
-
   if (window.videoStuff.getURLParameter('x')) {
     window.videoStuff.preffix_x = parseInt(window.videoStuff.getURLParameter('x'),10);
   }
-
-  window.videoStuff.playback = function() {
-    var vid = document.getElementById("video");
-
-    vid.onplay = function onplay() {
-      console.log('onplay');
-      window.videoStuff.currentTime = parseFloat(this.currentTime.toFixed(2)) ;
-
-      window.videoStuff.interval = setInterval(function(){
-        window.videoStuff.currentTime = parseFloat(window.videoStuff.currentTime.toFixed(2));
-        window.videoStuff.currentTime += 0.01;
-        window.videoStuff.currentTime = parseFloat(window.videoStuff.currentTime.toFixed(2));
-        var currentTime = window.videoStuff.currentTime.toFixed(2);
-
-        if ( window.playback[currentTime] ) {
-          var point = window.playback[currentTime];
-
-          window.clearCanvas();
-          window.paintNames(parseInt(point.x,10), parseInt(point.y,10), parseInt(point.w,10), point.name);
-        }
-/*
-        if ( window.videoStuff.currentTime > 17 && window.videoStuff.currentTime < 22) {
-          console.log('>>>', window.videoStuff.currentTime);
-        }
-*/
-
-      },10)
-    };
-
-    vid.onpause = function onpause() {
-      console.log('onpause');
-      window.clearInterval(window.videoStuff.interval);
-    };
-
-    vid.onseeked = function onseeked() {
-      console.log('onseeked');
-      window.videoStuff.currentTime = parseFloat(this.currentTime.toFixed(2));
-    };
-
-    vid.onended = function onended() {
-      console.log('onended');
-      window.clearInterval(window.videoStuff.interval);
-    };
-
-    vid.onerror = function onerror() {
-      console.log('onerror');
-      window.clearInterval(window.videoStuff.interval);
-    };
-
-    vid.onabort = function onabort() {
-      console.log('onabort');
-      window.clearInterval(window.videoStuff.interval);
-    };
-  }
-
-  if (window.location.search.substring(1).indexOf('dev=true') >= 0){
+  if (window.videoStuff.getURLParameter('dev') === 'true'){
     jQuery('.tracking-point-list').css('display','block');
   }
-
-
-  if (window.location.hash.substring(1).indexOf('play=true') >= 0){
-    window.videoStuff.playback();
+  if (window.videoStuff.getURLParameter('track') === 'true'){
+    window.videoStuff.isPlayMode = true;
   }
-
 
   jQuery('.onDownloadArray').on('click', function(){
     var jsonObj = {};
@@ -120,11 +146,14 @@
     }
   }
 
-
   jQuery('.track-player').on('click',function(){
-    var vid = document.getElementById('video');
-    var canvas = document.getElementById('canvas');
-    var context = canvas.getContext('2d');
+
+    if (window.videoStuff.isPlayMode) {
+      window.videoStuff.playback();
+      window.videoStuff.vid.pause();
+      window.videoStuff.vid.play();
+      return;
+    }
 
     tracking.ColorTracker.registerColor('purple', function(r, g, b) {
       //Orange full
@@ -159,7 +188,7 @@
         // No colors were detected in this frame.
       } else {
         jQuery('.tracking-point-list').append('<div></div><span>');
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        window.videoStuff.context.clearRect(0, 0, window.videoStuff.canvas.width, window.videoStuff.canvas.height);
         var currFrame = [];
         if (event.data.length > 0) {
           trackObj[x] = currFrame;
@@ -167,7 +196,7 @@
         }
         event.data.forEach(function(rect, index) {
           window.paintNames(rect.x, rect.y, rect.width);
-          jQuery('.tracking-point-list').append('<span class="item-title" onmouseover="window.paintNamesFromRecord(' + rect.x + ',' + rect.y + ','  + rect.width + ',' + vid.currentTime + ')" onclick="window.paintNamesClick(' + rect.x + ',' + rect.y + ','  + rect.width + ',' + vid.currentTime + ', this)">  ' + index + '  </span>');
+          jQuery('.tracking-point-list').append('<span class="item-title" onmouseover="window.paintNamesFromRecord(' + rect.x + ',' + rect.y + ','  + rect.width + ',' + window.videoStuff.vid.currentTime + ')" onclick="window.paintNamesClick(' + rect.x + ',' + rect.y + ','  + rect.width + ',' + window.videoStuff.vid.currentTime + ', this)">  ' + index + '  </span>');
         });
       }
 
@@ -184,53 +213,38 @@
     }
   };
 
-  window.clearCanvas = function clearCanvas( ) {
-    var canvas = document.getElementById('canvas');
-    var context = canvas.getContext('2d');
-    context.clearRect(0, 0, canvas.width, canvas.height);
-  };
-
     window.paintNamesFromRecord = function(x,y, width, currentTime) {
     if (window.trackingVideo) {
       window.trackingVideo.stop();
     }
-    var canvas = document.getElementById('canvas');
-    var vid = document.getElementById('video');
-    var context = canvas.getContext('2d');
-    vid.pause();
-    vid.currentTime = currentTime;
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.font = '22px Helvetica';
-    context.fillStyle = "#fff";
-    context.fillText(vid.currentTime + '  [x=' + x + ',y=' + y + "]", x + width - 30, y - 30);
+
+    window.videoStuff.vid.pause();
+    window.videoStuff.vid.currentTime = currentTime;
+    window.videoStuff.context.clearRect(0, 0, window.videoStuff.canvas.width, window.videoStuff.canvas.height);
+    window.videoStuff.context.font = '22px Helvetica';
+    window.videoStuff.context.fillStyle = "#fff";
+    window.videoStuff.context.fillText(window.videoStuff.vid.currentTime + '  [x=' + x + ',y=' + y + "]", x + width - 30, y - 30);
   };
 
   window.paintNames = function(x,y, width, name) {
     x += window.videoStuff.preffix_x;
     y += window.videoStuff.preffix_y;
-    var canvas = document.getElementById('canvas');
-    var vid = document.getElementById('video');
-    var context = canvas.getContext('2d');
 
-    context.font = 'bold 22px Arial';
-    context.fillStyle = "#ffffff";
+    window.videoStuff.context.font = 'bold 22px Arial';
+    window.videoStuff.context.fillStyle = "#ffffff";
     if (name) {
 
-      context.shadowColor = "black";
-      context.shadowOffsetX = 5;
-      context.shadowOffsetY = 5;
-      context.shadowBlur = 7;
-      context.font = "bold 22px 'Helvetica'";
-      context.textBaseline = 'alphabetic';
-      context.scale(1,1);
-      context.fillStyle = "#ffffff";
-      context.fillText(name, x + width - 30, y - 30);
-
-      /*context.fillStyle = "blue";
-      context.fillRect(x-10 , y - 70 , 90, 50);
-      context.globalAlpha = 0.3;*/
+      window.videoStuff.context.shadowColor = "black";
+      window.videoStuff.context.shadowOffsetX = 5;
+      window.videoStuff.context.shadowOffsetY = 5;
+      window.videoStuff.context.shadowBlur = 7;
+      window.videoStuff.context.font = "bold 22px 'Helvetica'";
+      window.videoStuff.context.textBaseline = 'alphabetic';
+      window.videoStuff.context.scale(1,1);
+      window.videoStuff.context.fillStyle = "#ffffff";
+      window.videoStuff.context.fillText(name, x + width - 30, y - 30);
     } else {
-      context.fillText(vid.currentTime + '  [x=' + x + ',y=' + y + "]", x + width - 30, y - 30);
+      window.videoStuff.context.fillText(window.videoStuff.vid.currentTime + '  [x=' + x + ',y=' + y + "]", x + width - 30, y - 30);
     }
 
   }
