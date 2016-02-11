@@ -64,6 +64,20 @@
             transform: scale(3, 3);
         }
 
+        .live-twits font {
+            text-transform: capitalize !important;
+        }
+
+        iframe[id^="twitter-widget"] {
+            position: absolute !important;
+            top: 60px !important;
+            left: -600px;
+        }
+
+        body.sidebar-collapse iframe[id^="twitter-widget"] {
+            left: -600px;
+        }
+
     </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -173,6 +187,11 @@
                         <i class="fa fa-th"></i> <span>Live</span>
                     </a>
                 </li>
+                <li>
+                    <a class="live-twits" href="#">
+                        <i class="fa fa-twitter"></i> <span>Tweets</span>
+                    </a>
+                </li>
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -233,6 +252,16 @@
 <script src="js/tracking.js"></script>
 <script src="js/commentator.js"></script>
 <script src="js/liveDemo.js"></script>
-
+<a class="twitter-timeline" href="https://twitter.com/realmadrid" data-widget-id="697686193694232576">Tweets by
+    @realmadrid</a>
+<script>!function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+    if (!d.getElementById(id)) {
+        js = d.createElement(s);
+        js.id = id;
+        js.src = p + "://platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }
+}(document, "script", "twitter-wjs");</script>
 </body>
 </html>
