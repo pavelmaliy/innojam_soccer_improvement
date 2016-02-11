@@ -82,6 +82,49 @@
             background-color: #222d32 !important;
         }
 
+        .avatar span {
+            position: relative;
+            top: -5px;
+            left: 10px;
+        }
+
+        .avatar i {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            top: 5px;
+            display: inline-block;
+            background-size: 32px;
+            border-radius: 16px;
+            padding-right: 10px;
+            background-color: #fff;
+        }
+
+        body.sidebar-collapse.skin-blue .treeview-menu.avatar > li > a {
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        body.sidebar-collapse.skin-blue .treeview-menu.avatar > li > a:hover {
+            font-size: 12px;
+        }
+
+        .avatar i.ronaldo {
+            background-image: url("dist/img/ronaldo.png");
+        }
+
+        .avatar i.modric {
+            background-image: url("dist/img/modric.png");
+        }
+
+        .avatar i.benzema {
+            background-image: url("dist/img/benzema.png");
+        }
+
+        .avatar i.bale {
+            background-image: url("dist/img/bale.jpg");
+        }
+
     </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -181,10 +224,16 @@
                     </ul>
                 </li>
                 </li>
-                <li>
+                <li class="treeview">
                     <a href="#">
                         <i class="fa fa-th"></i> <span>Focus on Player</span>
                     </a>
+                    <ul class="treeview-menu avatar">
+                        <li><a href="#"><i class="ronaldo"></i><span>Cristiano Ronaldo</span></a></li>
+                        <li><a href="#"><i class="modric"></i><span>Luka Modric</span></a></li>
+                        <li><a href="#"><i class="bale"></i><span>Gareth Bale</span></a></li>
+                        <li><a href="#"><i class="benzema"></i><span>Karim Benzema</span></a></li>
+                    </ul>
                 </li>
                 <li>
                     <a class="live-demo" href="#">
