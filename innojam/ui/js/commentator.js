@@ -30,6 +30,7 @@
   }).bind(this);
 
   jQuery('.meir').on('click',function() {
+    window.videoStuff.vid.currentTime = 40;
     muhamad.pause();
     shlomi.pause();
     live.pause();
