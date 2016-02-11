@@ -295,10 +295,14 @@
                         <li><a href="#"><i class="benzema"></i><span>Karim Benzema</span></a></li>
                     </ul>
                 </li>
-                <li>
-                    <a class="live-demo" href="#">
-                        <i class="fa fa-th"></i> <span>Live</span>
+                <li  class="treeview">
+                    <a href="#">
+                        <i class="fa fa-th"></i> <span>Face Recognition</span>
                     </a>
+                  <ul class="treeview-menu">
+                    <li><a  class="live-recognition" href="#"><i class="fa fa-male"></i>&nbsp;Live</a></li>
+                    <li><a  class="demo-recognition" href="#"><i class="fa fa-object-ungroup"></i>&nbsp;Demo</a></li>
+                  </ul>
                 </li>
                 <li>
                     <a class="live-twits" href="#">
@@ -316,11 +320,6 @@
         <section class="content">
 
             <div class="live-demo-content" style="display: none">
-
-                <div>
-                    <button id="demo-fake" type="button"> demo</button>
-                </div>
-
                 <div class="demo-frame">
                     <div class="demo-container">
                         <video id="videoLive" class="demo-video" width="300" height="240" preload autoplay loop
@@ -328,7 +327,6 @@
                         <canvas id="canvasLive" class="demo-video" width="300" height="240"></canvas>
                     </div>
                 </div>
-
             </div>
 
             <div class="video">

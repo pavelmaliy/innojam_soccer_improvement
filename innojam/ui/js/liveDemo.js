@@ -27,14 +27,14 @@
         iframe.animate({left: left}, 'fast');
     });
 
-    jQuery('.live-demo').on('click', function () {
+    jQuery('.live-recognition').on('click', function () {
         jQuery('.live-demo-content').show();
         jQuery('.video').hide();
         loadCamera();
 
     }.bind(this));
 
-    jQuery('#demo-fake').on('click', function () {
+    jQuery('.demo-recognition').on('click', function () {
         fakeDemo();
     }.bind(this));
 
