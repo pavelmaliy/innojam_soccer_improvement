@@ -7,7 +7,7 @@
     var muhamad = new Audio('/examples/assets/muhamad.mp3');
     var live = new Audio('/examples/assets/live.mp3');
     var meir = new Audio('/examples/assets/meir.mp3');
-  //  live.play();
+    live.play();
   jQuery('.live').on('click',function() {
       muhamad.pause();
       shlomi.pause();
