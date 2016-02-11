@@ -1,4 +1,15 @@
+$(document).on('keyup',function(evt) {
+  if (evt.keyCode == 27) {
+    $(".overlay_parent").html('');
+  }
+});
+
 jQuery('.ronstats').on('click',function () {
+  showRonaldo();
+
+});
+
+var showRonaldo = function() {
   if (!!window.overlayActive) {
     $(".overlay_parent").html('');
     window.overlayActive = false;
@@ -101,6 +112,4 @@ jQuery('.ronstats').on('click',function () {
       })
     }
   });
-
-
-});
+}
