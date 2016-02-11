@@ -28,7 +28,7 @@
     circle: function circle() {
       var alpha = 1.0,   // full opacity
         interval = setInterval(function () {
-          var centerX = window.videoStuff.canvas.width - 20;
+          var centerX = 20;
           var centerY = 20  ;
           var radius = 10;
 
