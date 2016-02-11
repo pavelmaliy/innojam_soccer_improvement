@@ -19,6 +19,36 @@
       return value !== null ? decodeURIComponent(value) : undefined;
     },
 
+    startCircle: function() {
+      interval = setInterval(function () {
+        window.videoStuff.circle();
+      },1500);
+    },
+
+    circle: function circle() {
+      var alpha = 1.0,   // full opacity
+        interval = setInterval(function () {
+          var centerX = window.videoStuff.canvas.width - 20;
+          var centerY = 20  ;
+          var radius = 10;
+
+          window.videoStuff.context.beginPath();
+          window.videoStuff.context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+          window.videoStuff.context.fillStyle = "rgba(0, 255, 0, " + alpha + ")";
+          window.videoStuff.context.fill();
+          //window.videoStuff.context.lineWidth = 0;
+          window.videoStuff.context.strokeStyle = '#003300';
+          window.videoStuff.context.stroke();
+          alpha = alpha - 0.05; // decrease opacity (fade out)
+
+          if (alpha < 0) {
+            window.videoStuff.canvas.width = window.videoStuff.canvas.width;
+            clearInterval(interval);
+          }
+
+        },50);
+    },
+
     fadeOutText: function fadeOutText(text) {
       var alpha = 1.0,   // full opacity
       interval = setInterval(function () {
@@ -31,7 +61,7 @@
         window.videoStuff.context.font = "bold 40px 'Helvetica'";
         window.videoStuff.context.textBaseline = 'alphabetic';
         window.videoStuff.context.scale(1,1);
-        window.videoStuff.context.fillStyle = "#eeeeee";
+        window.videoStuff.context.fillStyle = "rgba(0, 255, 0, " + alpha + ")";
         window.videoStuff.context.fillText(text, 600, 50);
 
         /*window.videoStuff.context.fillStyle = "rgba(255, 0, 0, " + alpha + ")";
@@ -47,7 +77,8 @@
 
     playback: function() {
 
-      window.videoStuff.fadeOutText('Start Tracking');
+      //window.videoStuff.fadeOutText('Start Tracking');
+      window.videoStuff.startCircle();
 
       window.videoStuff.vid.onplay = function onplay() {
         window.videoStuff.currentTime = parseFloat(this.currentTime.toFixed(2)) ;
@@ -94,7 +125,7 @@
     },
 
     clearCanvas: function clearCanvas( ) {
-      window.videoStuff.context.clearRect(0, 0, window.videoStuff.canvas.width, window.videoStuff.canvas.height);
+      window.videoStuff.context.clearRect(0, 50, window.videoStuff.canvas.width, window.videoStuff.canvas.height);
     }
   });
 
@@ -157,15 +188,15 @@
 
     tracking.ColorTracker.registerColor('purple', function(r, g, b) {
       //Orange full
-      /*var dx = r - 174;
+      var dx = r - 174;
       var dy = g - 113;
-      var dz = b - 93;*/
+      var dz = b - 93;
       //orange
-
+    /*
       var dx = r - 252;
       var dy = g - 142;
       var dz = b - 44;
-
+    */
       //white
 /*      var dx = r - 243;
       var dy = g - 254;
