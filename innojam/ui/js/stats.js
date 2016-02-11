@@ -1,4 +1,4 @@
-jQuery('.stats').on('click',function () {
+jQuery('.ronstats').on('click',function () {
   if (!!window.overlayActive) {
     $(".overlay_parent").html('');
     window.overlayActive = false;
